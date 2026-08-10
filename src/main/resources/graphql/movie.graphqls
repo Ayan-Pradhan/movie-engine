@@ -1,0 +1,17 @@
+ 
+ 
+ type MovieCriteria {
+ 	language: [String]
+    runtime: String
+    ratings: Double
+ }
+ 
+ type MovieInfo {
+ 	name: String!
+ 	runtime: String!
+ 	ratings: Double!
+ 	language: [String]
+ 	description: String!
+ }
+ 
+ 

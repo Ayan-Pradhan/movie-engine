@@ -1,0 +1,9 @@
+scalar Double
+
+type Query {
+
+}
+
+type Mutation {
+
+}
