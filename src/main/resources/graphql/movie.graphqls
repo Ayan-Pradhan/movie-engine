@@ -1,17 +1,46 @@
  
  
- type MovieCriteria {
+ extend type Query {
+ 	getAllMovies: Response
+ 	getMovieByName(movieName: String): Response
+ 	getMoviesByCriteria(criteria: MovieCriteria): Response
+ }
+ 
+ extend type Mutation {
+ 	addMovie(movie: MovieInput): Response
+ 	updateMovie(movie: MovieInput): Response
+ 	deleteMovie(movie: MovieInput): Response
+ }
+ 
+ type Response {
+ 	code: String
+ 	payload: [Movie]
+ }
+ 
+  type Movie {
+  	mid: ID
+ 	movieName: String
+ 	runtime: String
+ 	ratings: Double
+ 	language: [String]
+ 	description: String
+ }
+ 
+  input MovieInput {
+  	mid: ID
+ 	movieName: String!
+ 	runtime: String!
+ 	ratings: Double!
+ 	language: [String]!
+ 	description: String!
+ }
+ 
+ 
+ input MovieCriteria {
  	language: [String]
     runtime: String
     ratings: Double
  }
  
- type MovieInfo {
- 	name: String!
- 	runtime: String!
- 	ratings: Double!
- 	language: [String]
- 	description: String!
- }
- 
+
  
