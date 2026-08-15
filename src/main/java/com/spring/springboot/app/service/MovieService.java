@@ -1,42 +1,67 @@
 package com.spring.springboot.app.service;
 
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.spring.springboot.app.constant.ResponseCode;
 import com.spring.springboot.app.dto.MovieCriteria;
-import com.spring.springboot.app.dto.MovieInfo;
+import com.spring.springboot.app.dto.MovieInput;
 import com.spring.springboot.app.dto.Response;
+import com.spring.springboot.app.entity.Movie;
+import com.spring.springboot.app.exception.MovieNotFoundException;
 import com.spring.springboot.app.repository.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class MovieService {
 	
 	private final MovieRepository movieRepo;
+	private final ModelMapper mapper;
 	
-	public Response getMovie(String movieName) {
-		return null;
+	public Response get(String movieName) {
+		Movie movie =  movieRepo.findByMovieName(movieName)
+				.orElseThrow(() -> new MovieNotFoundException("No movie found with name: "+movieName));
+		
+		return new Response(ResponseCode.FOUND, List.of(movie));
 	}
 	
-	public Response getMovie(MovieCriteria criteria) {
-		return null;
+	public Response get(MovieCriteria criteria) {
+		List<Movie> movies = movieRepo.findByCriteria(criteria.language(), criteria.runtime(), criteria.ratings());
+		if(movies.isEmpty())
+			throw new MovieNotFoundException("No movie found with the given criteria");
+		
+		return new Response(ResponseCode.FOUND, movies);
 	}
 
-	public Response getAllMovie() {
-		return null;
+	public Response getAll() {
+		List<Movie> movies =  movieRepo.findAll();
+		if(movies.isEmpty())
+			throw new MovieNotFoundException("No movie found");
+		
+		return new Response(ResponseCode.FOUND, movies);
 	}
 	
-	public Response add(MovieInfo info) {
-		return null;
+	public Response add(MovieInput movieInput) {
+		Movie movie = mapper.map(movieInput, Movie.class);
+		return new Response(ResponseCode.SUCCESS, List.of(movieRepo.save(movie)));
 	}
 	
-	public Response edit(MovieInfo info) {
-		return null;
+	public Response edit(MovieInput movieInput) {
+		Movie movie = movieRepo.findByMid(movieInput.mid()).orElseThrow(()-> new MovieNotFoundException("No movie found with id: "+movieInput.mid()));
+		movie = mapper.map(movieInput, Movie.class);
+		return new Response(ResponseCode.SUCCESS, List.of(movieRepo.save(movie)));
 	}
 	
-	public Response remove(MovieInfo info) {
-		return null;
+	public Response remove(MovieInput movieInput) {
+		Movie movie = movieRepo.findByMid(movieInput.mid()).orElseThrow(()-> new MovieNotFoundException("No movie found with id: "+movieInput.mid()));
+		movieRepo.delete(movie);
+		return new Response(ResponseCode.SUCCESS, "Movie deleted");
 	}
 	
 	

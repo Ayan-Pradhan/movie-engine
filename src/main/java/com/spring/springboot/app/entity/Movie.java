@@ -1,14 +1,22 @@
 package com.spring.springboot.app.entity;
 
+import java.util.List;
+
+import com.spring.springboot.app.service.MidGenerator;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +28,19 @@ public class Movie {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	private String name;
+	@Column(unique = true, nullable = false, updatable = false)
+	private String mid;
+	private String movieName;
 	private String runtime;
 	private Double ratings;
-	private String[] language;
-	private String desc;
-
+	private List<String> language;
+	private String description;
+	
+	@PrePersist
+	public void generateMid() {
+		if(this.mid == null) {
+			this.mid = MidGenerator.generate();
+		}
+	}
+		
 }
