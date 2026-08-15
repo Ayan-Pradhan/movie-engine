@@ -1,5 +1,8 @@
 package com.spring.springboot.app.dto;
 
-public record Response() {
+import com.spring.springboot.app.constant.ResponseCode;
 
-}
+public record Response(
+		ResponseCode code,
+		Object payload
+		) {}
