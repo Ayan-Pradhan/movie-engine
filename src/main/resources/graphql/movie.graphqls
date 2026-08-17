@@ -2,7 +2,7 @@
  
  extend type Query {
  	getAllMovies: Response
- 	getMovieByName(movieName: String): Response
+ 	getMoviesByName(movieName: String): Response
  	getMoviesByCriteria(criteria: MovieCriteria): Response
  }
  
@@ -22,22 +22,22 @@
  	movieName: String
  	runtime: String
  	ratings: Double
- 	language: [String]
+ 	language: String
  	description: String
  }
  
   input MovieInput {
   	mid: ID
- 	movieName: String!
- 	runtime: String!
- 	ratings: Double!
- 	language: [String]!
- 	description: String!
+ 	movieName: String
+ 	runtime: String
+ 	ratings: Double
+ 	language: String
+ 	description: String
  }
  
  
  input MovieCriteria {
- 	language: [String]
+ 	language: String
     runtime: String
     ratings: Double
  }
