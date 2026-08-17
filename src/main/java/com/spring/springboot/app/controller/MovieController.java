@@ -18,13 +18,13 @@ public class MovieController {
 	
 	private final MovieService movieService;
 	
-	@QueryMapping("getMovieByName")
-	public Response getMovie(String movieName) {
+	@QueryMapping("getMoviesByName")
+	public Response getMovie(@Argument String movieName) {
 		return movieService.get(movieName);
 	}
 	
 	@QueryMapping("getMoviesByCriteria")
-	public Response getMovie(MovieCriteria criteria) {
+	public Response getMovie(@Argument MovieCriteria criteria) {
 		return movieService.get(criteria);
 	}
 	
