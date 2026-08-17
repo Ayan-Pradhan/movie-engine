@@ -13,10 +13,10 @@ import com.spring.springboot.app.entity.Movie;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long>{
 
-	Optional<Movie> findByMovieName(String movieName);
+	List<Movie> findByMovieName(String movieName);
 	Optional<Movie> findByMid(String mid);
-	@Query("SELECT m FROM Movie m WHERE (m.language IS NULL OR m.language = :language) AND "
-			+ "(m.runtime IS NULL OR m.runtime = :runtime) AND"
-			+ "(m.ratings IS NULL OR m.ratings = :ratings)")
+	@Query("SELECT m FROM Movie m WHERE (:language IS NULL OR m.language LIKE CONCAT('%',:language,'%')) AND "
+			+ "(:runtime IS NULL OR m.runtime = :runtime) AND"
+			+ "(:ratings IS NULL OR m.ratings = :ratings)")
 	List<Movie> findByCriteria(@Param("language") String language, @Param("runtime") String runtime,@Param("ratings") Double ratings);
 }

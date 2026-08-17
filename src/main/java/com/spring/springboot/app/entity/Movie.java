@@ -1,7 +1,5 @@
 package com.spring.springboot.app.entity;
 
-import java.util.List;
-
 import com.spring.springboot.app.service.MidGenerator;
 
 import jakarta.persistence.Column;
@@ -33,7 +31,7 @@ public class Movie {
 	private String movieName;
 	private String runtime;
 	private Double ratings;
-	private List<String> language;
+	private String language;
 	private String description;
 	
 	@PrePersist
