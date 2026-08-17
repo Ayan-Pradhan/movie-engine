@@ -5,5 +5,6 @@ public enum ResponseCode {
 	SUCCESS,
 	FAILED,
 	FOUND,
-	NOT_FOUND
+	NOT_FOUND,
+	ERROR
 }
