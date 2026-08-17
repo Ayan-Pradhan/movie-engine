@@ -1,5 +1,6 @@
 package com.spring.springboot.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -25,10 +26,11 @@ public class MovieService {
 	private final ModelMapper mapper;
 	
 	public Response get(String movieName) {
-		Movie movie =  movieRepo.findByMovieName(movieName)
-				.orElseThrow(() -> new MovieNotFoundException("No movie found with name: "+movieName));
+		List<Movie> movies =  movieRepo.findByMovieName(movieName);
+		if(movies.isEmpty())
+			throw new MovieNotFoundException("No movie found with name: "+movieName);
 		
-		return new Response(ResponseCode.FOUND, List.of(movie));
+		return new Response(ResponseCode.FOUND, movies);
 	}
 	
 	public Response get(MovieCriteria criteria) {
@@ -53,15 +55,19 @@ public class MovieService {
 	}
 	
 	public Response edit(MovieInput movieInput) {
-		Movie movie = movieRepo.findByMid(movieInput.mid()).orElseThrow(()-> new MovieNotFoundException("No movie found with id: "+movieInput.mid()));
-		movie = mapper.map(movieInput, Movie.class);
-		return new Response(ResponseCode.SUCCESS, List.of(movieRepo.save(movie)));
+		return movieRepo.findByMid(movieInput.mid())
+			.map(existing->{
+				mapper.map(movieInput, existing);
+				return new Response(ResponseCode.SUCCESS, List.of(movieRepo.save(existing)));
+			})
+			.orElseThrow(()-> new MovieNotFoundException("No movie found with id: "+movieInput.mid()));
+		
 	}
 	
 	public Response remove(MovieInput movieInput) {
 		Movie movie = movieRepo.findByMid(movieInput.mid()).orElseThrow(()-> new MovieNotFoundException("No movie found with id: "+movieInput.mid()));
 		movieRepo.delete(movie);
-		return new Response(ResponseCode.SUCCESS, "Movie deleted");
+		return new Response(ResponseCode.SUCCESS, new ArrayList<>());
 	}
 	
 	
