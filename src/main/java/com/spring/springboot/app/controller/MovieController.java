@@ -29,8 +29,8 @@ public class MovieController {
 	}
 	
 	@QueryMapping("getAllMovies")
-	public Response getAllMovies() {
-		return movieService.getAll();
+	public Response getAllMovies(@Argument int page, @Argument int size) {
+		return movieService.getAll(page, size);
 	}
 	
 	@MutationMapping("addMovie")

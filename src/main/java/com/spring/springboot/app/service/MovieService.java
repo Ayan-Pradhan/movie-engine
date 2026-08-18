@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.spring.springboot.app.constant.ResponseCode;
@@ -39,12 +42,24 @@ public class MovieService {
 		return new Response(ResponseCode.FOUND, movies);
 	}
 
-	public Response getAll() {
-		List<Movie> movies =  movieRepo.findAll();
-		if(movies.isEmpty())
+	public Response getAll(int page, int size) {
+		
+		if(size > 50)
+			size = 50;
+		
+		if(size < 1)
+			size = 10;
+		
+		if(page < 0)
+			page = 0;
+		
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Movie> moviePage = movieRepo.findAll(pageable);
+		
+		if(moviePage.isEmpty())
 			throw new MovieNotFoundException("No movie found");
 		
-		return new Response(ResponseCode.FOUND, movies);
+		return new Response(ResponseCode.FOUND, moviePage.toList());
 	}
 	
 	public Response add(MovieInput movieInput) {

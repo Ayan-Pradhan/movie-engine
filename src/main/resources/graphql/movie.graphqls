@@ -1,7 +1,7 @@
  
  
  extend type Query {
- 	getAllMovies: Response
+ 	getAllMovies(page: Int = 0, size: Int = 1): Response
  	getMoviesByName(movieName: String): Response
  	getMoviesByCriteria(criteria: MovieCriteria): Response
  }
