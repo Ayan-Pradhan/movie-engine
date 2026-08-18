@@ -17,7 +17,7 @@
  	payload: [Movie]
  }
  
-  type Movie {
+ type Movie {
   	mid: ID
  	movieName: String
  	runtime: String
@@ -26,7 +26,7 @@
  	description: String
  }
  
-  input MovieInput {
+ input MovieInput {
   	mid: ID
  	movieName: String
  	runtime: String
@@ -34,7 +34,6 @@
  	language: String
  	description: String
  }
- 
  
  input MovieCriteria {
  	language: String
