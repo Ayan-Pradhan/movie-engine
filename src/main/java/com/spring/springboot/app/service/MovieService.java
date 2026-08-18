@@ -15,9 +15,7 @@ import com.spring.springboot.app.exception.MovieNotFoundException;
 import com.spring.springboot.app.repository.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class MovieService {
