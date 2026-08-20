@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import com.spring.springboot.app.constant.ResponseCode;
 import com.spring.springboot.app.exception.MovieNotFoundException;
+import com.spring.springboot.app.exception.UserNotFoundException;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
@@ -17,6 +18,17 @@ public class MovieEngineExceptionHandler {
 
 	@GraphQlExceptionHandler(MovieNotFoundException.class)
 	public GraphQLError handleMovieNotFound(GraphqlErrorBuilder<?> errorBuilder, MovieNotFoundException ex) {
+		return errorBuilder
+				.errorType(ErrorType.NOT_FOUND)
+				.message(ex.getMessage())
+				.extensions(Map.of(
+						"code", ResponseCode.NOT_FOUND.toString()
+						))
+				.build();
+	}
+	
+	@GraphQlExceptionHandler(UserNotFoundException.class)
+	public GraphQLError handleMovieNotFound(GraphqlErrorBuilder<?> errorBuilder, UserNotFoundException ex) {
 		return errorBuilder
 				.errorType(ErrorType.NOT_FOUND)
 				.message(ex.getMessage())

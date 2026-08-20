@@ -6,5 +6,5 @@ extend type Mutation {
 type LoginResponse {
 	accessToken: String
 	tokenType: String
-	expiry: Int
+	expiry: String
 }
