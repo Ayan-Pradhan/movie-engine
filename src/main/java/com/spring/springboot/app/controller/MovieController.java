@@ -1,5 +1,6 @@
 package com.spring.springboot.app.controller;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -33,7 +34,7 @@ public class MovieController {
 	
 	@QueryMapping("getAllMovies")
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	public Response getAllMovies(@Argument int page, @Argument int size) {
+	public Response getAllMovies(@Argument @Nullable int page, @Argument @Nullable int size) {
 		return movieService.getAll(page, size);
 	}
 	

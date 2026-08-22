@@ -24,7 +24,7 @@ public class MovieEngineTokenService {
 				.issuedAt(Instant.now())
 				.expiresAt(Instant.now().plusSeconds(60*60))
 				.subject(user.getId())
-				.claim("scope",user.getRole())
+				.claim("role",user.getRole())
 				.build();
 		
 		return jwtEncoder.encode(JwtEncoderParameters.from(claims));
